@@ -17,5 +17,12 @@ public class StopLinePoint : WayPoint
     [SerializeField]
     private TrafficLight m_TrafficLight;
 
-
+    /// <summary>
+    /// Get current light type of the traffic light
+    /// </summary>
+    /// <returns>type of the traffic light that is on</returns>
+    public TrafficLight.LightType GetTrafficLightType()
+    {
+        return m_TrafficLight.CurrentLight;
+    }
 }

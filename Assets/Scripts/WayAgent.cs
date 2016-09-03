@@ -28,6 +28,11 @@ public class WayAgent : MonoBehaviour
     /// </summary>
     public Vector3 Direction { get; private set; }
 
+    /// <summary>
+    /// Distance to the end point
+    /// </summary>
+    public float Distance { get; private set; }
+
 
     /// <summary>
     /// Update current position within the path of the way
@@ -37,6 +42,7 @@ public class WayAgent : MonoBehaviour
         if (null == StartPoint) // we are not in any segment of path
         {
             Direction = Vector3.zero;
+            Distance = 0;
             return;
         }
 
@@ -47,6 +53,7 @@ public class WayAgent : MonoBehaviour
             if (null == EndPoint) // we might arrive the final point
             {
                 Direction = Vector3.zero;
+                Distance = 0;
                 return;
             }
         }
@@ -60,6 +67,7 @@ public class WayAgent : MonoBehaviour
         }
 
         Direction = vecToEnd.normalized;
+        Distance = vecToEnd.magnitude;
     }
 
     /// <summary>
@@ -79,6 +87,23 @@ public class WayAgent : MonoBehaviour
         // TODO: a interpolation needed
         if (Direction != Vector3.zero)
             transform.forward = Direction;
+    }
+
+    /// <summary>
+    /// Get current light type of the traffic light
+    /// </summary>
+    /// <returns>type of the traffic light that is on</returns>
+    public TrafficLight.LightType GetCurrentTrafficLight()
+    {
+        if (null != EndPoint )
+        {
+            StopLinePoint p = EndPoint as StopLinePoint;
+            if (null != p)
+            {
+                return p.GetTrafficLightType();
+            }
+        }
+        return TrafficLight.LightType.SteadyGreen;
     }
 
     void OnEnable()

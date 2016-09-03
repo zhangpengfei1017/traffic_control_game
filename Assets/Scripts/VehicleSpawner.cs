@@ -7,13 +7,13 @@ public class VehicleSpawner : MonoBehaviour
     /// <summary>
     /// List of prefabs of vehicle to be spawned
     /// </summary>
-    public WayAgent[] prefabs;
+    public WayAgent[] m_Prefabs;
 
     IEnumerator Start()
     {
         yield return new WaitForSeconds(2.0f);
 
-        var vehicle = Instantiate<WayAgent>(prefabs[0]);
+        var vehicle = Instantiate<WayAgent>(m_Prefabs[0]);
         vehicle.transform.position = transform.position;
         vehicle.transform.rotation = transform.rotation;
         vehicle.StartPoint = GetComponent<SpawnPoint>();

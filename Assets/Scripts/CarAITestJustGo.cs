@@ -24,8 +24,11 @@ public class CarAITestJustGo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float dist = speed * Time.deltaTime;
-        agent.MoveForward(dist);
-        agent.AdjustToCurrentDirection();
+        if (agent.Distance > 1 || agent.GetCurrentTrafficLight() == TrafficLight.LightType.SteadyGreen)
+        {
+            float dist = speed * Time.deltaTime;
+            agent.MoveForward(dist);
+            agent.AdjustToCurrentDirection();
+        }
     }
 }
