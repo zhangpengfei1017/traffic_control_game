@@ -6,13 +6,19 @@ using System.Collections;
 /// </summary>
 public class CarAITestJustGo : MonoBehaviour
 {
-    public float speed = 1.0f;
+    public float speed;
+
+    public float acceleration = 1000.0f;
 
     private WayAgent agent;
+
+    public float iniTime;
 
     void Awake()
     {
         agent = GetComponent<WayAgent>();
+
+        iniTime = Time.realtimeSinceStartup;
     }
 
     // Use this for initialization
@@ -26,6 +32,13 @@ public class CarAITestJustGo : MonoBehaviour
     {
         if (agent.Distance > 1 || agent.GetCurrentTrafficLight() == TrafficLight.LightType.SteadyGreen)
         {
+            if (speed <= 10.0f)
+            {
+                speed = acceleration * (Time.realtimeSinceStartup - iniTime);
+            }
+
+            print("speed: " + speed);
+
             float dist = speed * Time.deltaTime;
             agent.MoveForward(dist);
             agent.AdjustToCurrentDirection();

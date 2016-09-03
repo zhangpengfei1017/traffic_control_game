@@ -33,6 +33,15 @@ public class WayAgent : MonoBehaviour
     /// </summary>
     public float Distance { get; private set; }
 
+    /// <summary>
+    /// The car in front of the current car
+    /// </summary>
+    public GameObject carInFront;
+
+    /// <summary>
+    /// Traffic lights which this car will follows to
+    /// </summary>
+    public GameObject[] trafficLights;
 
     /// <summary>
     /// Update current position within the path of the way
@@ -69,6 +78,8 @@ public class WayAgent : MonoBehaviour
         Direction = vecToEnd.normalized;
         Distance = vecToEnd.magnitude;
     }
+
+
 
     /// <summary>
     /// Move forward in suggested direction
