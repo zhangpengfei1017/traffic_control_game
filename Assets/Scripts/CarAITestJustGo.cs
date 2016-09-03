@@ -8,17 +8,19 @@ public class CarAITestJustGo : MonoBehaviour
 {
     public float speed;
 
-    public float acceleration = 1000.0f;
+    public float gas_acceleration = 10.0f;
+
+    public float brake_acceleration = -20.0f;
 
     private WayAgent agent;
 
-    public float iniTime;
+    //public float iniTime;
 
     void Awake()
     {
         agent = GetComponent<WayAgent>();
 
-        iniTime = Time.realtimeSinceStartup;
+        //iniTime = Time.realtimeSinceStartup;
     }
 
     // Use this for initialization
@@ -27,21 +29,46 @@ public class CarAITestJustGo : MonoBehaviour
 
     }
 
+    bool NeedStop()
+    {
+        // Check that if we are far enough from next point or the traffic light is green
+        return agent.Distance < 4 && (agent.GetCurrentTrafficLight() != TrafficLight.LightType.SteadyGreen);
+    }
+
+    void Gas()
+    {
+        if (speed <= 10.0f)
+        {
+            speed += gas_acceleration * Time.deltaTime;
+        }
+    }
+
+    void Brake()
+    {
+        if (speed > 0)
+        {
+            speed += brake_acceleration * Time.deltaTime;
+        }
+        else
+        {
+            speed = 0;
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
-        if (agent.Distance > 1 || agent.GetCurrentTrafficLight() == TrafficLight.LightType.SteadyGreen)
+        if (NeedStop())
         {
-            if (speed <= 10.0f)
-            {
-                speed = acceleration * (Time.realtimeSinceStartup - iniTime);
-            }
-
-            print("speed: " + speed);
-
-            float dist = speed * Time.deltaTime;
-            agent.MoveForward(dist);
-            agent.AdjustToCurrentDirection();
+            Brake();
         }
+        else
+        {
+            Gas();
+        }
+
+        float dist = speed * Time.deltaTime;
+        agent.MoveForward(dist);
+        agent.AdjustToCurrentDirection();
     }
 }

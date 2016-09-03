@@ -34,16 +34,6 @@ public class WayAgent : MonoBehaviour
     public float Distance { get; private set; }
 
     /// <summary>
-    /// The car in front of the current car
-    /// </summary>
-    public GameObject carInFront;
-
-    /// <summary>
-    /// Traffic lights which this car will follows to
-    /// </summary>
-    public GameObject[] trafficLights;
-
-    /// <summary>
     /// Update current position within the path of the way
     /// </summary>
     public void UpdateWayPosition()
@@ -78,9 +68,7 @@ public class WayAgent : MonoBehaviour
         Direction = vecToEnd.normalized;
         Distance = vecToEnd.magnitude;
     }
-
-
-
+    
     /// <summary>
     /// Move forward in suggested direction
     /// </summary>
@@ -106,7 +94,7 @@ public class WayAgent : MonoBehaviour
     /// <returns>type of the traffic light that is on</returns>
     public TrafficLight.LightType GetCurrentTrafficLight()
     {
-        if (null != EndPoint )
+        if (null != EndPoint)
         {
             StopLinePoint p = EndPoint as StopLinePoint;
             if (null != p)
@@ -115,6 +103,15 @@ public class WayAgent : MonoBehaviour
             }
         }
         return TrafficLight.LightType.SteadyGreen;
+    }
+
+    /// <summary>
+    /// Find 
+    /// </summary>
+    /// <returns></returns>
+    public WayAgent ViechleInFront()
+    {
+        return null;
     }
 
     void OnEnable()
